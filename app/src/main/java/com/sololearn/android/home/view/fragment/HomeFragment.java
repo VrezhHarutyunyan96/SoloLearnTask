@@ -28,7 +28,7 @@ public class HomeFragment extends Fragment {
     private View view;
     private RecyclerView recyclerView;
     private HomeRecyclerAdapter homeRecyclerAdapter;
-    RecyclerView.LayoutManager layoutManager = null;
+    RecyclerView.LayoutManager layoutManager;
     // object
     private Context context;
     private HomeDataViewModel homeDataViewModel;
@@ -99,7 +99,7 @@ public class HomeFragment extends Fragment {
         }
         System.out.println("djnbdjnjdnjdn====>>>>>>  " + visibleItemCount);
         System.out.println("djnbdjnjdnjdn====>>>>>>  " + firstVisibleItemPosition);
-        if (visibleItemCount + firstVisibleItemPosition == 10) {
+        if (visibleItemCount == 8) {
             System.out.println();
         }
     }
@@ -107,7 +107,9 @@ public class HomeFragment extends Fragment {
     private final RecyclerView.OnScrollListener mOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            checkEndOffset(); // Each time when list is scrolled check if end of the list is reached
+            if (dy >0) {
+                checkEndOffset(); // Each time when list is scrolled check if end of the list is reached
+            }
         }
     };
 }
