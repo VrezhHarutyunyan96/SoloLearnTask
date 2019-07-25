@@ -5,25 +5,31 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.paging.LivePagedListBuilder;
+import androidx.paging.PageKeyedDataSource;
+import androidx.paging.PagedList;
 
 import com.sololearn.android.home.model.HomeDataResponseModel;
-import com.sololearn.android.home.viewmodel.repository.HomeDataRepository;
+import com.sololearn.android.home.viewmodel.datasource.ItemDataSource;
+import com.sololearn.android.home.viewmodel.datasource.ItemDataSourceFactory;
 
 public class HomeDataViewModel extends AndroidViewModel {
-    private LiveData<HomeDataResponseModel> liveData;
-    private HomeDataRepository repository;
+    public LiveData itemPagedList;
+    public LiveData<PageKeyedDataSource<Integer, HomeDataResponseModel>> liveDataSource;
 
     public HomeDataViewModel(@NonNull Application application) {
         super(application);
+        ItemDataSourceFactory itemDataSourceFactory = new ItemDataSourceFactory();
+        liveDataSource = itemDataSourceFactory.getItemLiveDataSource();
+
+        PagedList.Config pagedListConfig =
+                (new PagedList.Config.Builder())
+                        .setEnablePlaceholders(false)
+                        .setPageSize(ItemDataSource.PAGE_SIZE).build();
+        itemPagedList = (new LivePagedListBuilder<Integer, HomeDataResponseModel>(itemDataSourceFactory, pagedListConfig)).build();
     }
 
-    public void getHomeData(int page) {
-       if (repository == null)
-           repository = new HomeDataRepository();
-       liveData = repository.initRequest(String.valueOf(page));
-    }
-
-    public LiveData<HomeDataResponseModel> getLiveData() {
-        return liveData;
+    public LiveData getItemPagedList() {
+        return itemPagedList;
     }
 }

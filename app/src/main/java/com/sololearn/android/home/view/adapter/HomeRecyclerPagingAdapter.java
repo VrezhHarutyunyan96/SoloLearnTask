@@ -1,6 +1,7 @@
 package com.sololearn.android.home.view.adapter;
 
 import android.content.Context;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.paging.PagedListAdapter;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -16,14 +19,26 @@ import com.bumptech.glide.request.RequestOptions;
 import com.sololearn.android.R;
 import com.sololearn.android.home.model.HomeDataResponseModel;
 
-public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapter.HomeViewHolder> {
-    private Context context;
-    private HomeDataResponseModel data;
+public class HomeRecyclerPagingAdapter extends PagedListAdapter<HomeDataResponseModel, HomeRecyclerPagingAdapter.HomeViewHolder> {
+    private static DiffUtil.ItemCallback<HomeDataResponseModel> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<HomeDataResponseModel>() {
+                @Override
+                public boolean areItemsTheSame(HomeDataResponseModel oldItem, HomeDataResponseModel newItem) {
+                    return oldItem.getResponse().getPageSize().equals(newItem.getResponse().getPageSize());
+                }
 
-    public HomeRecyclerAdapter(Context context, HomeDataResponseModel data) {
+                @Override
+                public boolean areContentsTheSame(HomeDataResponseModel oldItem, HomeDataResponseModel newItem) {
+                    return oldItem.equals(newItem);
+                }
+            };
+    private Context context;
+
+    public HomeRecyclerPagingAdapter(Context context) {
+        super(DIFF_CALLBACK);
         this.context = context;
-        this.data = data;
     }
+
 
     @NonNull
     @Override
@@ -34,18 +49,24 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
 
     @Override
     public void onBindViewHolder(@NonNull HomeViewHolder holder, int position) {
-        /*StaggeredGridLayoutManager.LayoutParams params = (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
-        params.setFullSpan(true);*/
         addContent(holder, position);
     }
 
     private void addContent(HomeViewHolder holder, int position) {
-        HomeDataResponseModel.Result result = data.getResponse().getResults().get(position);
-        // download image
-        downloadImage(holder.thumbnail, result);
-        // add corresponding text
-        addText(result.getWebTitle(), holder.title);
-        addText(result.getSectionName(), holder.section);
+        HomeDataResponseModel data = getItem(position);
+        if (data != null && data.getResponse().getResults() != null) {
+            HomeDataResponseModel.Result result;
+            try {
+                result = data.getResponse().getResults().get(position);
+            } catch (Exception e) {
+                result = data.getResponse().getResults().get(0);
+            }
+            // download image
+            downloadImage(holder.thumbnail, result);
+            // add corresponding text
+            addText(result.getWebTitle(), holder.title);
+            addText(result.getSectionName(), holder.section);
+        }
     }
 
     private void addText(String text, TextView textView) {
@@ -65,11 +86,6 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
                     .apply(requestOptions)
                     .into(imageView);
         }
-    }
-
-    @Override
-    public int getItemCount() {
-        return data.getResponse().getResults().size();
     }
 
     class HomeViewHolder extends RecyclerView.ViewHolder {
