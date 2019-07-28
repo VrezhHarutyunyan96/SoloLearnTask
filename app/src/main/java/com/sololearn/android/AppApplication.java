@@ -6,6 +6,7 @@ import com.sololearn.android.handler.appstate.AppLifeCycleListener;
 
 public class AppApplication extends Application implements AppLifeCycleListener {
     public static AppApplication appApplication;
+    public static boolean isBackground = false;
 
     @Override
     public void onCreate() {
@@ -15,11 +16,11 @@ public class AppApplication extends Application implements AppLifeCycleListener 
 
     @Override
     public void onBackground() {
-
+        isBackground = true;
     }
 
     @Override
     public void onForeground() {
-
+        isBackground = false;
     }
 }
