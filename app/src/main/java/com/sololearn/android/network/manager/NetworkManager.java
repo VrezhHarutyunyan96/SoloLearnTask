@@ -10,6 +10,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+@SuppressWarnings("unchecked")
 public class NetworkManager<BODY, RESPONSE> {
 
     public NetworkManager() {
@@ -31,6 +32,7 @@ public class NetworkManager<BODY, RESPONSE> {
     public void initRequest(String methodType, NetworkRequestListener<RESPONSE> listener) {
         handleRequest(methodType, listener);
     }
+
 
     private void handleRequest(String methodType, final NetworkRequestListener<RESPONSE> listener) {
         RetrofitHandler retrofitHandler = new RetrofitHandler(AppApplication.appApplication);
