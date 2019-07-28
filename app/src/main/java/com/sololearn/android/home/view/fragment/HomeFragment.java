@@ -3,7 +3,6 @@ package com.sololearn.android.home.view.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +45,6 @@ public class HomeFragment extends Fragment {
         initViewModel();
         initViews();
         initHomeDataAdapter();
-        getHomeData();
         return view;
     }
 
@@ -65,10 +63,6 @@ public class HomeFragment extends Fragment {
         homeDataViewModel.getNetworkState().observe(this, networkState -> {
             homeRecyclerPagingAdapter.setNetworkState(networkState);
         });
-    }
-
-    private void getHomeData() {
-
     }
 
     private void initViewModel() {
