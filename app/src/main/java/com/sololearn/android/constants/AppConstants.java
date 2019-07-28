@@ -9,4 +9,7 @@ public interface AppConstants {
 
     // method type
     String GET = "GET";
+
+    // bundle key
+    String DETAIL_IMAGE = "detail_image";
 }

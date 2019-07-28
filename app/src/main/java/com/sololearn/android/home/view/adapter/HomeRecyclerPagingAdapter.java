@@ -1,6 +1,7 @@
 package com.sololearn.android.home.view.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,12 +19,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.sololearn.android.R;
+import com.sololearn.android.constants.AppConstants;
 import com.sololearn.android.home.model.HomeDataResponseModel;
+import com.sololearn.android.home.view.fragment.DetailItemFragment;
 
-public class HomeRecyclerPagingAdapter  extends PagedListAdapter<HomeDataResponseModel, HomeRecyclerPagingAdapter.HomeViewHolder>{
-    private static final int TYPE_PROGRESS = 0;
-    private static final int TYPE_ITEM = 1;
-
+public class HomeRecyclerPagingAdapter extends PagedListAdapter<HomeDataResponseModel, HomeRecyclerPagingAdapter.HomeViewHolder> {
     private Context context;
     private String networkState;
 
@@ -43,7 +45,26 @@ public class HomeRecyclerPagingAdapter  extends PagedListAdapter<HomeDataRespons
 
     @Override
     public void onBindViewHolder(@NonNull HomeViewHolder holder, int position) {
-       addContent(holder, position);
+        addContent(holder, position);
+        onItemClick(holder, position);
+    }
+
+    private void onItemClick(HomeViewHolder holder, int position) {
+        if (holder != null) {
+            holder.rootLayout.setOnClickListener(v -> {
+                HomeDataResponseModel data = getItem(position);
+                if (data != null) {
+                    HomeDataResponseModel.Response response = data.getResponse();
+                    String imageUrl = response.getResults().get(position).getFields().getThumbnail();
+                    Fragment detailItemFragment = new DetailItemFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString(AppConstants.DETAIL_IMAGE, imageUrl);
+                    detailItemFragment.setArguments(bundle);
+                    // show detail fragment
+                    createFragment(R.id.fragmentContainer, detailItemFragment, v);
+                }
+            });
+        }
     }
 
 
@@ -72,13 +93,23 @@ public class HomeRecyclerPagingAdapter  extends PagedListAdapter<HomeDataRespons
 
     private void downloadImage(ImageView imageView, HomeDataResponseModel.Result result) {
         if (imageView != null && result != null) {
-            if (result.getFields() !=null && result.getFields().getThumbnail() !=null) {
+            if (result.getFields() != null && result.getFields().getThumbnail() != null) {
                 Glide
                         .with(context)
                         .load(result.getFields().getThumbnail())
                         .into(imageView);
             }
         }
+    }
+
+    private void createFragment(int resId, Fragment fragment, View view) {
+        AppCompatActivity activity = (AppCompatActivity) view.getContext();
+        activity
+                .getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack("")
+                .replace(resId, fragment)
+                .commit();
     }
 
     public void setNetworkState(String newNetworkState) {
@@ -111,7 +142,7 @@ public class HomeRecyclerPagingAdapter  extends PagedListAdapter<HomeDataRespons
         TextView section;
         ConstraintLayout rootLayout;
 
-        public HomeViewHolder(@NonNull View itemView) {
+        HomeViewHolder(@NonNull View itemView) {
             super(itemView);
             thumbnail = itemView.findViewById(R.id.imageViewContent);
             title = itemView.findViewById(R.id.textViewTitle);
