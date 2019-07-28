@@ -9,7 +9,7 @@ public class HomeDataFactory extends DataSource.Factory {
     private FeedDataSource feedDataSource;
 
     public HomeDataFactory() {
-        this.mutableLiveData = new MutableLiveData<FeedDataSource>();
+        this.mutableLiveData = new MutableLiveData<>();
     }
 
     @Override

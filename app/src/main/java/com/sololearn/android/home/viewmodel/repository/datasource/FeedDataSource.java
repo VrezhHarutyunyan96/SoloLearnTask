@@ -25,12 +25,12 @@ public class FeedDataSource extends PageKeyedDataSource<Long, HomeDataResponseMo
      * by displaying a progress bar
      */
 
-    private MutableLiveData networkState;
-    private MutableLiveData initialLoading;
+    private MutableLiveData<String> networkState;
+    private MutableLiveData<String> initialLoading;
 
     public FeedDataSource() {
-        networkState = new MutableLiveData();
-        initialLoading = new MutableLiveData();
+        networkState = new MutableLiveData<>();
+        initialLoading = new MutableLiveData<>();
     }
 
 
@@ -88,9 +88,7 @@ public class FeedDataSource extends PageKeyedDataSource<Long, HomeDataResponseMo
 
     @Override
     public void loadBefore(@NonNull LoadParams<Long> params,
-                           @NonNull LoadCallback<Long, HomeDataResponseModel> callback) {
-
-    }
+                           @NonNull LoadCallback<Long, HomeDataResponseModel> callback) {}
 
     /*
      * This method it is responsible for the subsequent call to load the data page wise.
