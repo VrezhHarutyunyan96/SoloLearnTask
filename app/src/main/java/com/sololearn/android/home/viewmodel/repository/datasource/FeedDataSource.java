@@ -1,4 +1,4 @@
-package com.sololearn.android.home.viewmodel.datasource;
+package com.sololearn.android.home.viewmodel.repository.datasource;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;

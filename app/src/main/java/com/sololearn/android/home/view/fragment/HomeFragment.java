@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.sololearn.android.R;
 import com.sololearn.android.home.view.adapter.HomeRecyclerPagingAdapter;
-import com.sololearn.android.home.viewmodel.FeedViewModel;
+import com.sololearn.android.home.viewmodel.HomeDataViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,7 +27,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     private HomeRecyclerPagingAdapter homeRecyclerPagingAdapter;
-    private FeedViewModel feedViewModel;
+    private HomeDataViewModel homeDataViewModel;
     // object
     private Context context;
     private Handler handler;
@@ -63,10 +63,10 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         homeRecyclerPagingAdapter = new HomeRecyclerPagingAdapter(context.getApplicationContext());
         recyclerView.setAdapter(homeRecyclerPagingAdapter);
-        feedViewModel.getArticleLiveData().observe(this, pagedList -> {
+        homeDataViewModel.getArticleLiveData().observe(this, pagedList -> {
             homeRecyclerPagingAdapter.submitList(pagedList);
         });
-        feedViewModel.getNetworkState().observe(this, networkState -> {
+        homeDataViewModel.getNetworkState().observe(this, networkState -> {
             homeRecyclerPagingAdapter.setNetworkState(networkState);
         });
     }
@@ -76,6 +76,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void initViewModel() {
-        feedViewModel = ViewModelProviders.of(this).get(FeedViewModel.class);
+        homeDataViewModel = ViewModelProviders.of(this).get(HomeDataViewModel.class);
     }
 }

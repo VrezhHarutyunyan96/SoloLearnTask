@@ -7,17 +7,18 @@ import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
 import com.sololearn.android.home.model.HomeDataResponseModel;
+import com.sololearn.android.home.viewmodel.repository.datasource.HomeDataFactory;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class FeedViewModel extends ViewModel {
+public class HomeDataViewModel extends ViewModel {
 
     private Executor executor;
     private LiveData<String> networkState;
     private LiveData<PagedList<HomeDataResponseModel>> articleLiveData;
 
-    public FeedViewModel() {
+    public HomeDataViewModel() {
         init();
     }
 
@@ -37,8 +38,8 @@ public class FeedViewModel extends ViewModel {
     private void init() {
         executor = Executors.newFixedThreadPool(5);
 
-        FeedDataFactory feedDataFactory = new FeedDataFactory();
-        networkState = Transformations.switchMap(feedDataFactory.getMutableLiveData(),
+        HomeDataFactory homeDataFactory = new HomeDataFactory();
+        networkState = Transformations.switchMap(homeDataFactory.getMutableLiveData(),
                 dataSource -> dataSource.getNetworkState());
 
         PagedList.Config pagedListConfig =
@@ -47,7 +48,7 @@ public class FeedViewModel extends ViewModel {
                         .setInitialLoadSizeHint(10)
                         .setPageSize(20).build();
 
-        articleLiveData = (new LivePagedListBuilder(feedDataFactory, pagedListConfig))
+        articleLiveData = (new LivePagedListBuilder(homeDataFactory, pagedListConfig))
                 .setFetchExecutor(executor)
                 .build();
     }

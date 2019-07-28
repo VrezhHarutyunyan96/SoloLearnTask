@@ -1,16 +1,14 @@
-package com.sololearn.android.home.viewmodel;
+package com.sololearn.android.home.viewmodel.repository.datasource;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.DataSource;
 
-import com.sololearn.android.home.viewmodel.datasource.FeedDataSource;
-
-public class FeedDataFactory extends DataSource.Factory {
+public class HomeDataFactory extends DataSource.Factory {
 
     private MutableLiveData<FeedDataSource> mutableLiveData;
     private FeedDataSource feedDataSource;
 
-    public FeedDataFactory() {
+    public HomeDataFactory() {
         this.mutableLiveData = new MutableLiveData<FeedDataSource>();
     }
 
