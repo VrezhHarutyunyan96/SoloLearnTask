@@ -26,14 +26,10 @@ public class HomeFragment extends Fragment {
     private View view;
     private RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
-    private HomeRecyclerPagingAdapter homeRecyclerPagingAdapter;
-    private HomeDataViewModel homeDataViewModel;
     // object
     private Context context;
-    private Handler handler;
-    // variable
-    private int page = 0;
-    private boolean loading;
+    private HomeRecyclerPagingAdapter homeRecyclerPagingAdapter;
+    private HomeDataViewModel homeDataViewModel;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -50,7 +46,6 @@ public class HomeFragment extends Fragment {
         initViews();
         initHomeDataAdapter();
         getHomeData();
-        handler = new Handler();
         return view;
     }
 

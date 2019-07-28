@@ -72,14 +72,10 @@ public class HomeRecyclerPagingAdapter  extends PagedListAdapter<HomeDataRespons
 
     private void downloadImage(ImageView imageView, HomeDataResponseModel.Result result) {
         if (imageView != null && result != null) {
-            RequestOptions requestOptions = new
-                    RequestOptions()
-                    .placeholder(R.drawable.placeholder);
             if (result.getFields() !=null && result.getFields().getThumbnail() !=null) {
                 Glide
                         .with(context)
                         .load(result.getFields().getThumbnail())
-                        .apply(requestOptions)
                         .into(imageView);
             }
         }
