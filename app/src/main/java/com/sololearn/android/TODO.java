@@ -25,7 +25,7 @@ public class TODO {
      *
      * ·  Ability to Pin items to the home page view using an icon in the article view page.
      * The pinned items should be listed in a horizontal scrolling view on top of the home page list.
-     * When pinning an article, the new item should be reflected in the list dynamically, upon going back to the home page. -
+     * When pinning an article, the new item should be reflected in the list dynamically, upon going back to the home page. +
      *
      *
      *
