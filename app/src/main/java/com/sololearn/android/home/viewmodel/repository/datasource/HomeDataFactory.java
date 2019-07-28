@@ -5,8 +5,8 @@ import androidx.paging.DataSource;
 
 public class HomeDataFactory extends DataSource.Factory {
 
-    private MutableLiveData<FeedDataSource> mutableLiveData;
-    private FeedDataSource feedDataSource;
+    private MutableLiveData<HomeDataSource> mutableLiveData;
+    private HomeDataSource homeDataSource;
 
     public HomeDataFactory() {
         this.mutableLiveData = new MutableLiveData<>();
@@ -14,12 +14,12 @@ public class HomeDataFactory extends DataSource.Factory {
 
     @Override
     public DataSource create() {
-        feedDataSource = new FeedDataSource();
-        mutableLiveData.postValue(feedDataSource);
-        return feedDataSource;
+        homeDataSource = new HomeDataSource();
+        mutableLiveData.postValue(homeDataSource);
+        return homeDataSource;
     }
   
-    public MutableLiveData<FeedDataSource> getMutableLiveData() {
+    public MutableLiveData<HomeDataSource> getMutableLiveData() {
         return mutableLiveData;
     }
 }

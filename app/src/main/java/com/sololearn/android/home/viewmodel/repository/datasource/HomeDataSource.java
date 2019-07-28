@@ -17,7 +17,7 @@ import java.util.Objects;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class FeedDataSource extends PageKeyedDataSource<Long, HomeDataResponseModel> {
+public class HomeDataSource extends PageKeyedDataSource<Long, HomeDataResponseModel> {
     /*
      * Initialize the restApiFactory.
      * The networkState and initialLoading variables
@@ -28,7 +28,7 @@ public class FeedDataSource extends PageKeyedDataSource<Long, HomeDataResponseMo
     private MutableLiveData<String> networkState;
     private MutableLiveData<String> initialLoading;
 
-    public FeedDataSource() {
+    public HomeDataSource() {
         networkState = new MutableLiveData<>();
         initialLoading = new MutableLiveData<>();
     }
