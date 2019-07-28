@@ -11,7 +11,7 @@ import com.sololearn.android.home.viewmodel.repository.datasource.HomeDataFactor
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-
+@SuppressWarnings("unchecked")
 public class HomeDataViewModel extends ViewModel {
 
     private Executor executor;
