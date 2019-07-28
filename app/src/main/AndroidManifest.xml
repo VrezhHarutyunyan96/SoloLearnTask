@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.sololearn.android">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -23,7 +24,7 @@
             </intent-filter>
         </activity>
         <service
-            android:name=".Service.CheckNewDataService"
+            android:name=".service.CheckNewDataService"
             tools:ignore="InnerclassSeparator" />
     </application>
 

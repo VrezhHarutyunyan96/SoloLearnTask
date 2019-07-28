@@ -1,5 +1,6 @@
 package com.sololearn.android.home.viewmodel;
 
+import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
@@ -8,10 +9,10 @@ import androidx.paging.PagedList;
 
 import com.sololearn.android.home.model.HomeDataResponseModel;
 import com.sololearn.android.home.viewmodel.repository.datasource.HomeDataFactory;
+import com.sololearn.android.home.viewmodel.repository.datasource.HomeDataSource;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-@SuppressWarnings("unchecked")
 public class HomeDataViewModel extends ViewModel {
 
     private Executor executor;
@@ -35,12 +36,13 @@ public class HomeDataViewModel extends ViewModel {
      *         in Step 4 and the DatasourceFactory we created from Step 2
      *         and the executor we initialized from Step 1.
      */
+    @SuppressWarnings("unchecked")
     private void init() {
         executor = Executors.newFixedThreadPool(5);
 
         HomeDataFactory homeDataFactory = new HomeDataFactory();
         networkState = Transformations.switchMap(homeDataFactory.getMutableLiveData(),
-                dataSource -> dataSource.getNetworkState());
+                (Function<HomeDataSource, LiveData<String>>) HomeDataSource::getNetworkState);
 
         PagedList.Config pagedListConfig =
                 (new PagedList.Config.Builder())

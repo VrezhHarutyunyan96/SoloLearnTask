@@ -1,7 +1,10 @@
 package com.sololearn.android.home.view.fragment;
 
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +13,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.sololearn.android.R;
+import com.sololearn.android.constants.AppConstants;
 import com.sololearn.android.home.view.adapter.HomeRecyclerPagingAdapter;
 import com.sololearn.android.home.viewmodel.HomeDataViewModel;
 
@@ -48,6 +53,12 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    private IntentFilter subscribeBroadcast() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(AppConstants.NEW_ITEM);
+        return intentFilter;
+    }
+
     private void initViews() {
         recyclerView = view.findViewById(R.id.homeDataRecyclerView);
     }
@@ -67,5 +78,31 @@ public class HomeFragment extends Fragment {
 
     private void initViewModel() {
         homeDataViewModel = ViewModelProviders.of(this).get(HomeDataViewModel.class);
+    }
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // update
+            initHomeDataAdapter();
+        }
+    };
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // register broadcast receiver
+        LocalBroadcastManager
+                .getInstance(context)
+                .registerReceiver(broadcastReceiver, subscribeBroadcast());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        // unRegister broadcast receiver
+        LocalBroadcastManager
+                .getInstance(context)
+                .unregisterReceiver(broadcastReceiver);
     }
 }

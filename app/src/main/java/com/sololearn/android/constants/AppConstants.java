@@ -10,8 +10,11 @@ public interface AppConstants {
     // method type
     String GET = "GET";
 
-    // bundle key
+    // key
     String DETAIL_IMAGE = "detail_image";
+    String TOTAL_DATA = "total_data";
+    String NEW_ITEM = "total_data";
+    String NEW_ITEM_IMAGE = "total_data_image";
 
     // room
     int ROOM_VERSION = 1;

@@ -6,6 +6,7 @@ import androidx.paging.PageKeyedDataSource;
 
 import com.google.gson.Gson;
 import com.sololearn.android.constants.AppConstants;
+import com.sololearn.android.helper.SharedHelper;
 import com.sololearn.android.home.model.HomeDataResponseModel;
 import com.sololearn.android.network.listener.NetworkRequestListener;
 import com.sololearn.android.network.manager.NetworkManager;
@@ -88,7 +89,8 @@ public class HomeDataSource extends PageKeyedDataSource<Long, HomeDataResponseMo
 
     @Override
     public void loadBefore(@NonNull LoadParams<Long> params,
-                           @NonNull LoadCallback<Long, HomeDataResponseModel> callback) {}
+                           @NonNull LoadCallback<Long, HomeDataResponseModel> callback) {
+    }
 
     /*
      * This method it is responsible for the subsequent call to load the data page wise.

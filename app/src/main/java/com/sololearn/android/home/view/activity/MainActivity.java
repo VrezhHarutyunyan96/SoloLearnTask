@@ -1,5 +1,6 @@
 package com.sololearn.android.home.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import com.sololearn.android.R;
 import com.sololearn.android.home.view.adapter.HomePagerAdapter;
 import com.sololearn.android.home.view.fragment.HomeFragment;
 import com.sololearn.android.home.view.fragment.SavedFragment;
+import com.sololearn.android.service.CheckNewDataService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,5 +81,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        startService(new Intent(this, CheckNewDataService.class));
     }
 }
