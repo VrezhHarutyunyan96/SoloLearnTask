@@ -1,7 +1,6 @@
 package com.sololearn.android.home.view.adapter;
 
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,23 +18,18 @@ import com.bumptech.glide.request.RequestOptions;
 import com.sololearn.android.R;
 import com.sololearn.android.home.model.HomeDataResponseModel;
 
-public class HomeRecyclerPagingAdapter extends PagedListAdapter<HomeDataResponseModel, HomeRecyclerPagingAdapter.HomeViewHolder> {
-    private static DiffUtil.ItemCallback<HomeDataResponseModel> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<HomeDataResponseModel>() {
-                @Override
-                public boolean areItemsTheSame(HomeDataResponseModel oldItem, HomeDataResponseModel newItem) {
-                    return oldItem.getResponse().getPageSize().equals(newItem.getResponse().getPageSize());
-                }
+public class HomeRecyclerPagingAdapter  extends PagedListAdapter<HomeDataResponseModel, HomeRecyclerPagingAdapter.HomeViewHolder>{
+    private static final int TYPE_PROGRESS = 0;
+    private static final int TYPE_ITEM = 1;
 
-                @Override
-                public boolean areContentsTheSame(HomeDataResponseModel oldItem, HomeDataResponseModel newItem) {
-                    return oldItem.equals(newItem);
-                }
-            };
     private Context context;
+    private String networkState;
 
+    /*
+     * The DiffUtil is defined in the constructor
+     */
     public HomeRecyclerPagingAdapter(Context context) {
-        super(DIFF_CALLBACK);
+        super(HomeDataResponseModel.DIFF_CALLBACK);
         this.context = context;
     }
 
@@ -49,8 +43,9 @@ public class HomeRecyclerPagingAdapter extends PagedListAdapter<HomeDataResponse
 
     @Override
     public void onBindViewHolder(@NonNull HomeViewHolder holder, int position) {
-        addContent(holder, position);
+       addContent(holder, position);
     }
+
 
     private void addContent(HomeViewHolder holder, int position) {
         HomeDataResponseModel data = getItem(position);
@@ -80,11 +75,37 @@ public class HomeRecyclerPagingAdapter extends PagedListAdapter<HomeDataResponse
             RequestOptions requestOptions = new
                     RequestOptions()
                     .placeholder(R.drawable.placeholder);
-            Glide
-                    .with(context)
-                    .load(result.getFields().getThumbnail())
-                    .apply(requestOptions)
-                    .into(imageView);
+            if (result.getFields() !=null && result.getFields().getThumbnail() !=null) {
+                Glide
+                        .with(context)
+                        .load(result.getFields().getThumbnail())
+                        .apply(requestOptions)
+                        .into(imageView);
+            }
+        }
+    }
+
+    public void setNetworkState(String newNetworkState) {
+        String previousState = this.networkState;
+        boolean previousExtraRow = hasExtraRow();
+        this.networkState = newNetworkState;
+        boolean newExtraRow = hasExtraRow();
+        if (previousExtraRow != newExtraRow) {
+            if (previousExtraRow) {
+                notifyItemRemoved(getItemCount());
+            } else {
+                notifyItemInserted(getItemCount());
+            }
+        } else if (newExtraRow && !previousState.equals(newNetworkState)) {
+            notifyItemChanged(getItemCount() - 1);
+        }
+    }
+
+    private boolean hasExtraRow() {
+        if (networkState != null && !networkState.equals("LOADED")) {
+            return true;
+        } else {
+            return false;
         }
     }
 

@@ -18,6 +18,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        targetCompatibility = '1.8'
+        sourceCompatibility = '1.8'
+    }
 }
 
 dependencies {
@@ -42,17 +46,29 @@ dependencies {
     implementation "androidx.cardview:cardview:$card_view_version"
     implementation "androidx.recyclerview:recyclerview:$recycler_view_version"
     implementation "jp.wasabeef:recyclerview-animators:$recycler_view_item_animation_version"
+    /*
+        * Step 1: Add the paging library
+        */
+    implementation 'android.arch.paging:runtime:1.0.0'
 
+    /*
+     * Step 2: Adding ViewModel and Lifecycle
+     */
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
     // Glide
     def glide_version = "4.8.0"
     implementation "com.github.bumptech.glide:glide:$glide_version"
     annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
-    // Retrofit2
-    def retrofit_version = "2.4.0"
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    implementation 'androidx.paging:paging-runtime:2.1.0'
-//    // Pagination
-//    def pagination_version = "0.5.1"
-//    implementation "com.github.markomilos:paginate:$pagination_version"
+    /*
+     * Step 3: Adding rxJava to the app
+     */
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    /*
+    * Step 4: Adding retrofit to the app
+    */
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
 }
