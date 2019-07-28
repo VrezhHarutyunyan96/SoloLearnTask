@@ -21,7 +21,7 @@ import com.sololearn.android.home.viewmodel.HomeDataViewModel;
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment {
-    public static final String TAG = HomeFragment.class.getName();
+    static final String TAG = HomeFragment.class.getName();
     // view
     private View view;
     private RecyclerView recyclerView;
