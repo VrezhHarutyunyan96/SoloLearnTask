@@ -12,4 +12,8 @@ public interface AppConstants {
 
     // bundle key
     String DETAIL_IMAGE = "detail_image";
+
+    // room
+    int ROOM_VERSION = 1;
+    String DB_NAME_SAVED_DATA = "savedData.db";
 }

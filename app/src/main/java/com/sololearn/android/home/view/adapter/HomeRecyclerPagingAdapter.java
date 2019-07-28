@@ -12,20 +12,22 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.paging.PagedListAdapter;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.sololearn.android.R;
 import com.sololearn.android.constants.AppConstants;
 import com.sololearn.android.home.model.HomeDataResponseModel;
 import com.sololearn.android.home.view.fragment.DetailItemFragment;
+import com.sololearn.android.home.viewmodel.SavedDataViewModel;
 
 public class HomeRecyclerPagingAdapter extends PagedListAdapter<HomeDataResponseModel, HomeRecyclerPagingAdapter.HomeViewHolder> {
     private Context context;
     private String networkState;
+    private SavedDataViewModel savedDataViewModel;
 
     /*
      * The DiffUtil is defined in the constructor
@@ -39,8 +41,13 @@ public class HomeRecyclerPagingAdapter extends PagedListAdapter<HomeDataResponse
     @NonNull
     @Override
     public HomeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        initViewModel();
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_recycler_item, parent, false);
         return new HomeViewHolder(view);
+    }
+
+    private void initViewModel() {
+        savedDataViewModel = ViewModelProviders.of((FragmentActivity) context).get(SavedDataViewModel.class);
     }
 
     @Override
@@ -64,7 +71,22 @@ public class HomeRecyclerPagingAdapter extends PagedListAdapter<HomeDataResponse
                     createFragment(R.id.fragmentContainer, detailItemFragment, v);
                 }
             });
+
+            holder.pin.setOnClickListener(v -> {
+                HomeDataResponseModel data = getItem(position);
+                if (data != null) {
+                    HomeDataResponseModel.Result result = data.getResponse().getResults().get(position);
+                    String sectionName = result.getSectionName();
+                    String title = result.getWebTitle();
+                    String imageUrl = result.getFields().getThumbnail();
+                    pin(sectionName, title, imageUrl);
+                }
+            });
         }
+    }
+
+    private void pin(String sectionName, String title, String imageUrl) {
+        savedDataViewModel.save(sectionName, title, imageUrl);
     }
 
 
@@ -141,13 +163,15 @@ public class HomeRecyclerPagingAdapter extends PagedListAdapter<HomeDataResponse
         TextView title;
         TextView section;
         ConstraintLayout rootLayout;
+        ConstraintLayout pin;
 
         HomeViewHolder(@NonNull View itemView) {
             super(itemView);
             thumbnail = itemView.findViewById(R.id.imageViewContent);
             title = itemView.findViewById(R.id.textViewTitle);
             section = itemView.findViewById(R.id.textCategory);
-            rootLayout = itemView.findViewById(R.id.rootLayoutID);
+            rootLayout = itemView.findViewById(R.id.rootClick);
+            pin = itemView.findViewById(R.id.pinLayoutID);
         }
     }
 }

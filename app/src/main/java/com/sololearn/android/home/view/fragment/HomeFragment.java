@@ -55,7 +55,7 @@ public class HomeFragment extends Fragment {
     private void initHomeDataAdapter() {
         layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        homeRecyclerPagingAdapter = new HomeRecyclerPagingAdapter(context.getApplicationContext());
+        homeRecyclerPagingAdapter = new HomeRecyclerPagingAdapter(context);
         recyclerView.setAdapter(homeRecyclerPagingAdapter);
         homeDataViewModel.getArticleLiveData().observe(this, pagedList -> {
             homeRecyclerPagingAdapter.submitList(pagedList);
