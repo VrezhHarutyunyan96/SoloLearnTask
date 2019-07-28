@@ -58,12 +58,9 @@ public class SavedFragment extends Fragment {
     }
 
     private void getSavedData() {
-        final Observer<List<SavedDataModel>> observer = new Observer<List<SavedDataModel>>() {
-            @Override
-            public void onChanged(List<SavedDataModel> savedDataModels) {
-                if (savedDataModels != null) {
-                    initSavedAdapter(savedDataModels);
-                }
+        final Observer<List<SavedDataModel>> observer = savedDataModels -> {
+            if (savedDataModels != null) {
+                initSavedAdapter(savedDataModels);
             }
         };
         savedDataViewModel.getLiveData().observe(this, observer);
