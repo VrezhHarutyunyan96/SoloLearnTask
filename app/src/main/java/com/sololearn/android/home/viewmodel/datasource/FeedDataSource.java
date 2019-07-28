@@ -18,11 +18,8 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class FeedDataSource extends PageKeyedDataSource<Long, HomeDataResponseModel> {
-
-    private static final String TAG = FeedDataSource.class.getSimpleName();
-
     /*
-     * Step 1: Initialize the restApiFactory.
+     * Initialize the restApiFactory.
      * The networkState and initialLoading variables
      * are for updating the UI when data is being fetched
      * by displaying a progress bar
@@ -47,7 +44,7 @@ public class FeedDataSource extends PageKeyedDataSource<Long, HomeDataResponseMo
 
 
     /*
-     * Step 2: This method is responsible to load the data initially
+     * This method is responsible to load the data initially
      * when app screen is launched for the first time.
      * We are fetching the first page data from the api
      * and passing it via the callback method to the UI.
@@ -86,30 +83,6 @@ public class FeedDataSource extends PageKeyedDataSource<Long, HomeDataResponseMo
                 networkState.postValue(null);
             }
         });
-
-
-
-        /*appController.getRestApi().fetchFeed(QUERY, API_KEY, 1, params.requestedLoadSize)
-                .enqueue(new Callback<Feed>() {
-                    @Override
-                    public void onResponse(Call<Feed> call, Response<Feed> response) {
-                        if(response.isSuccessful()) {
-                            callback.onResult(response.body().getArticles(), null, 2l);
-                            initialLoading.postValue(NetworkState.LOADED);
-                            networkState.postValue(NetworkState.LOADED);
-
-                        } else {
-                            initialLoading.postValue(new NetworkState(NetworkState.Status.FAILED, response.message()));
-                            networkState.postValue(new NetworkState(NetworkState.Status.FAILED, response.message()));
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Feed> call, Throwable t) {
-                        String errorMessage = t == null ? "unknown error" : t.getMessage();
-                        networkState.postValue(new NetworkState(NetworkState.Status.FAILED, errorMessage));
-                    }
-                });*/
     }
 
 
@@ -119,9 +92,8 @@ public class FeedDataSource extends PageKeyedDataSource<Long, HomeDataResponseMo
 
     }
 
-
     /*
-     * Step 3: This method it is responsible for the subsequent call to load the data page wise.
+     * This method it is responsible for the subsequent call to load the data page wise.
      * This method is executed in the background thread
      * We are fetching the next page data from the api
      * and passing it via the callback method to the UI.
@@ -160,28 +132,5 @@ public class FeedDataSource extends PageKeyedDataSource<Long, HomeDataResponseMo
 
             }
         });
-
-       /* appController.getRestApi().fetchFeed(QUERY, API_KEY, params.key, params.requestedLoadSize).enqueue(new Callback<Feed>() {
-            @Override
-            public void onResponse(Call<Feed> call, Response<Feed> response) {
-                *//*
-         * If the request is successful, then we will update the callback
-         * with the latest feed items and
-         * "params.key+1" -> set the next key for the next iteration.
-         *//*
-                if(response.isSuccessful()) {
-                    long nextKey = (params.key == response.body().getTotalResults()) ? null : params.key+1;
-                    callback.onResult(response.body().getArticles(), nextKey);
-                    networkState.postValue(NetworkState.LOADED);
-
-                } else networkState.postValue(new NetworkState(NetworkState.Status.FAILED, response.message()));
-            }
-
-            @Override
-            public void onFailure(Call<Feed> call, Throwable t) {
-                String errorMessage = t == null ? "unknown error" : t.getMessage();
-                networkState.postValue(new NetworkState(NetworkState.Status.FAILED, errorMessage));
-            }
-        });*/
     }
 }

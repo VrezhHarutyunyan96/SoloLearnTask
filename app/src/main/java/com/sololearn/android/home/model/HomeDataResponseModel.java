@@ -1,15 +1,26 @@
 package com.sololearn.android.home.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HomeDataResponseModel {
+
+    public static DiffUtil.ItemCallback<HomeDataResponseModel> DIFF_CALLBACK = new DiffUtil.ItemCallback<HomeDataResponseModel>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull HomeDataResponseModel oldItem, @NonNull HomeDataResponseModel newItem) {
+            return oldItem.getResponse() == newItem.getResponse();
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull HomeDataResponseModel oldItem, @NonNull HomeDataResponseModel newItem) {
+            return oldItem.equals(newItem);
+        }
+    };
 
     @SerializedName("response")
     @Expose
