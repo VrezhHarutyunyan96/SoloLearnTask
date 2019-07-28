@@ -1,4 +1,4 @@
-package com.sololearn.android.listener;
+package com.sololearn.android.network.listener;
 
 import androidx.annotation.NonNull;
 

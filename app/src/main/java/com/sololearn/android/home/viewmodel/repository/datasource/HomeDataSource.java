@@ -7,7 +7,7 @@ import androidx.paging.PageKeyedDataSource;
 import com.google.gson.Gson;
 import com.sololearn.android.constants.AppConstants;
 import com.sololearn.android.home.model.HomeDataResponseModel;
-import com.sololearn.android.listener.NetworkRequestListener;
+import com.sololearn.android.network.listener.NetworkRequestListener;
 import com.sololearn.android.network.manager.NetworkManager;
 
 import java.util.ArrayList;

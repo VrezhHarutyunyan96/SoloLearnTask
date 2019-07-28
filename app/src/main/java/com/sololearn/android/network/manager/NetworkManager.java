@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.sololearn.android.AppApplication;
 import com.sololearn.android.constants.AppConstants;
-import com.sololearn.android.listener.NetworkRequestListener;
+import com.sololearn.android.network.listener.NetworkRequestListener;
 
 import retrofit2.Call;
 import retrofit2.Callback;
