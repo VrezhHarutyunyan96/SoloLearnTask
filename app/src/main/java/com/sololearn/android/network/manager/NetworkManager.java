@@ -2,15 +2,9 @@ package com.sololearn.android.network.manager;
 
 import androidx.annotation.NonNull;
 
-import com.google.gson.Gson;
-import com.google.gson.internal.LinkedTreeMap;
-import com.google.gson.reflect.TypeToken;
+import com.sololearn.android.AppApplication;
 import com.sololearn.android.constants.AppConstants;
-import com.sololearn.android.home.model.HomeDataResponseModel;
 import com.sololearn.android.listener.NetworkRequestListener;
-import com.sololearn.android.network.webservice.ApiService;
-
-import java.lang.reflect.Type;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,7 +33,7 @@ public class NetworkManager<BODY, RESPONSE> {
     }
 
     private void handleRequest(String methodType, final NetworkRequestListener<RESPONSE> listener) {
-        RetrofitHandler retrofitHandler = new RetrofitHandler();
+        RetrofitHandler retrofitHandler = new RetrofitHandler(AppApplication.appApplication);
         switch (methodType) {
             case AppConstants.GET:
                 Call<RESPONSE> call = (Call<RESPONSE>) retrofitHandler.getNetworkService().get(url.concat((String) BODY));

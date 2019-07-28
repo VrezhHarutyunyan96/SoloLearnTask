@@ -2,7 +2,6 @@ package com.sololearn.android.network.manager;
 
 import android.content.Context;
 
-import com.sololearn.android.AppApplication;
 import com.sololearn.android.constants.AppConstants;
 import com.sololearn.android.network.webservice.ApiService;
 
@@ -19,7 +18,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitHandler {
-    private Context context = AppApplication.appApplication;
+    private Context context;
+
+    public RetrofitHandler(Context context) {
+        this.context = context;
+    }
 
     public ApiService getNetworkService() {
         return initRetrofit(AppConstants.BASE_URL).create(ApiService.class);
