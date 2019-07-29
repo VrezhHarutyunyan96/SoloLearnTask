@@ -25,6 +25,7 @@ import retrofit2.Response;
 public class CheckNewDataService extends Service {
     private Timer timer;
     private TimerTask timerTask;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -67,6 +68,7 @@ public class CheckNewDataService extends Service {
         NetworkManager<String, HomeDataResponseModel> networkManager = new NetworkManager<>();
         networkManager.setPage(String.valueOf(1));
         networkManager.setUrl(AppConstants.GET_HOME_DATA_URL);
+        networkManager.setPageSize(String.valueOf(1));
         networkManager.initRequest(AppConstants.GET, new NetworkRequestListener<HomeDataResponseModel>() {
             @Override
             public void onResponse(Call<HomeDataResponseModel> call, @NonNull Response<HomeDataResponseModel> response) {
@@ -81,7 +83,7 @@ public class CheckNewDataService extends Service {
                     String title = data.getResponse().getResults().get(0).getWebTitle();
                     if (imageUrl != null && !imageUrl.isEmpty())
                         SharedHelper.putKey(null, AppConstants.NEW_ITEM_IMAGE, imageUrl);
-                        SharedHelper.putKey(null,AppConstants.NEW_ITEM_TITLE,title);
+                    SharedHelper.putKey(null, AppConstants.NEW_ITEM_TITLE, title);
                 } else {
                 }
             }
