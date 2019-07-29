@@ -14,7 +14,7 @@ public class HomeDataResponseModel {
     public static DiffUtil.ItemCallback<HomeDataResponseModel> DIFF_CALLBACK = new DiffUtil.ItemCallback<HomeDataResponseModel>() {
         @Override
         public boolean areItemsTheSame(@NonNull HomeDataResponseModel oldItem, @NonNull HomeDataResponseModel newItem) {
-            return oldItem.getResponse() == newItem.getResponse();
+            return oldItem == newItem;
         }
 
         @Override

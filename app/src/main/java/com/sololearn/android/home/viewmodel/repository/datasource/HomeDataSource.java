@@ -6,7 +6,6 @@ import androidx.paging.PageKeyedDataSource;
 
 import com.google.gson.Gson;
 import com.sololearn.android.constants.AppConstants;
-import com.sololearn.android.helper.SharedHelper;
 import com.sololearn.android.home.model.HomeDataResponseModel;
 import com.sololearn.android.network.listener.NetworkRequestListener;
 import com.sololearn.android.network.manager.NetworkManager;
@@ -59,7 +58,8 @@ public class HomeDataSource extends PageKeyedDataSource<Long, HomeDataResponseMo
 
         // init request
         NetworkManager<String, HomeDataResponseModel> networkManager = new NetworkManager<>();
-        networkManager.setBODY(String.valueOf(1));
+        networkManager.setPage(String.valueOf(1));
+        networkManager.setPageSize(String.valueOf(params.requestedLoadSize));
         networkManager.setUrl(AppConstants.GET_HOME_DATA_URL);
         networkManager.initRequest(AppConstants.GET, new NetworkRequestListener<HomeDataResponseModel>() {
             @Override
@@ -90,6 +90,7 @@ public class HomeDataSource extends PageKeyedDataSource<Long, HomeDataResponseMo
     @Override
     public void loadBefore(@NonNull LoadParams<Long> params,
                            @NonNull LoadCallback<Long, HomeDataResponseModel> callback) {
+        System.out.println("dflemfkerlmfe");
     }
 
     /*
@@ -107,7 +108,8 @@ public class HomeDataSource extends PageKeyedDataSource<Long, HomeDataResponseMo
         networkState.postValue("LOADING");
         // init request
         NetworkManager<String, HomeDataResponseModel> networkManager = new NetworkManager<>();
-        networkManager.setBODY(String.valueOf(params.key));
+        networkManager.setPage(String.valueOf(params.key));
+        networkManager.setPageSize(String.valueOf(params.requestedLoadSize));
         networkManager.setUrl(AppConstants.GET_HOME_DATA_URL);
         networkManager.initRequest(AppConstants.GET, new NetworkRequestListener<HomeDataResponseModel>() {
             @Override

@@ -15,6 +15,7 @@ public interface AppConstants {
     String TOTAL_DATA = "total_data";
     String NEW_ITEM = "total_data";
     String NEW_ITEM_IMAGE = "total_data_image";
+    String NEW_ITEM_TITLE = "total_data_title";
 
     // room
     int ROOM_VERSION = 1;

@@ -25,8 +25,6 @@ import retrofit2.Response;
 public class CheckNewDataService extends Service {
     private Timer timer;
     private TimerTask timerTask;
-    int count = 0;
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -51,7 +49,6 @@ public class CheckNewDataService extends Service {
                 @Override
                 public void run() {
                     initCheckRequest();
-                    count++;
                 }
             };
             timer.schedule(timerTask, 30000);
@@ -68,7 +65,7 @@ public class CheckNewDataService extends Service {
     private void initCheckRequest() {
         // init request
         NetworkManager<String, HomeDataResponseModel> networkManager = new NetworkManager<>();
-        networkManager.setBODY(String.valueOf(1));
+        networkManager.setPage(String.valueOf(1));
         networkManager.setUrl(AppConstants.GET_HOME_DATA_URL);
         networkManager.initRequest(AppConstants.GET, new NetworkRequestListener<HomeDataResponseModel>() {
             @Override
@@ -81,8 +78,10 @@ public class CheckNewDataService extends Service {
                     handleUpdateData(isHaveNewItem);
                     startTimer(true);
                     String imageUrl = data.getResponse().getResults().get(0).getFields().getThumbnail();
+                    String title = data.getResponse().getResults().get(0).getWebTitle();
                     if (imageUrl != null && !imageUrl.isEmpty())
                         SharedHelper.putKey(null, AppConstants.NEW_ITEM_IMAGE, imageUrl);
+                        SharedHelper.putKey(null,AppConstants.NEW_ITEM_TITLE,title);
                 } else {
                 }
             }
@@ -95,7 +94,7 @@ public class CheckNewDataService extends Service {
     }
 
     private void handleUpdateData(boolean isHaveNewItem) {
-        if (isHaveNewItem == true || count > 0) {
+        if (isHaveNewItem == true ) {
             if (!AppApplication.isBackground) {
                 LocalBroadcastManager
                         .getInstance(CheckNewDataService.this)
@@ -105,7 +104,6 @@ public class CheckNewDataService extends Service {
                 SoloLearnNotification soloLearnNotification = new SoloLearnNotification(CheckNewDataService.this);
                 soloLearnNotification.show("aa", "");
             }
-            count = 0;
         }
     }
 

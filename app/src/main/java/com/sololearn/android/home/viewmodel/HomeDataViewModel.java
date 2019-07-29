@@ -13,6 +13,7 @@ import com.sololearn.android.home.viewmodel.repository.datasource.HomeDataSource
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+
 public class HomeDataViewModel extends ViewModel {
 
     private Executor executor;
@@ -38,7 +39,7 @@ public class HomeDataViewModel extends ViewModel {
      */
     @SuppressWarnings("unchecked")
     private void init() {
-        executor = Executors.newFixedThreadPool(5);
+        executor = Executors.newFixedThreadPool(10);
 
         HomeDataFactory homeDataFactory = new HomeDataFactory();
         networkState = Transformations.switchMap(homeDataFactory.getMutableLiveData(),
@@ -47,8 +48,8 @@ public class HomeDataViewModel extends ViewModel {
         PagedList.Config pagedListConfig =
                 (new PagedList.Config.Builder())
                         .setEnablePlaceholders(false)
-                        .setInitialLoadSizeHint(10)
-                        .setPageSize(20).build();
+                        .setInitialLoadSizeHint(50)
+                        .setPageSize(50).build();
 
         articleLiveData = (new LivePagedListBuilder(homeDataFactory, pagedListConfig))
                 .setFetchExecutor(executor)

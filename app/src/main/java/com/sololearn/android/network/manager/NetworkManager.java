@@ -18,14 +18,20 @@ public class NetworkManager<BODY, RESPONSE> {
 
     private String url;
     private BODY BODY;
+    private BODY pageSize;
 
     public NetworkManager<BODY, RESPONSE> setUrl(String url) {
         this.url = url;
         return this;
     }
 
-    public NetworkManager<BODY, RESPONSE> setBODY(BODY BODY) {
+    public NetworkManager<BODY, RESPONSE> setPage(BODY BODY) {
         this.BODY = BODY;
+        return this;
+    }
+
+    public NetworkManager<BODY, RESPONSE> setPageSize(BODY BODY) {
+        this.pageSize = BODY;
         return this;
     }
 
@@ -38,7 +44,7 @@ public class NetworkManager<BODY, RESPONSE> {
         RetrofitHandler retrofitHandler = new RetrofitHandler(AppApplication.appApplication);
         switch (methodType) {
             case AppConstants.GET:
-                Call<RESPONSE> call = (Call<RESPONSE>) retrofitHandler.getNetworkService().get(url.concat((String) BODY));
+                Call<RESPONSE> call = (Call<RESPONSE>) retrofitHandler.getNetworkService().get(url.concat((String) BODY).concat("&page-size=" + pageSize));
                 call.enqueue(new Callback<RESPONSE>() {
                     @Override
                     public void onResponse(@NonNull Call<RESPONSE> call, @NonNull Response<RESPONSE> response) {

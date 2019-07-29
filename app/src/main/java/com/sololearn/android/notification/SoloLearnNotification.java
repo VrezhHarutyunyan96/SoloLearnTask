@@ -206,11 +206,11 @@ public class SoloLearnNotification {
                 // Title for API <16 (4.0 and below) devices.
                 .setContentTitle(bigPictureStyleSocialAppData.getContentTitle())
                 // Content for API <24 (7.0 and below) devices.
-                .setContentText(bigPictureStyleSocialAppData.getContentText())
-                .setSmallIcon(android.R.drawable.stat_notify_call_mute)
+                .setContentText(SharedHelper.getKey(null,AppConstants.NEW_ITEM_TITLE))
+                .setSmallIcon(android.R.drawable.ic_dialog_email)
                 .setLargeIcon(BitmapFactory.decodeResource(
                         context.getResources(),
-                        android.R.drawable.stat_notify_call_mute))
+                        android.R.drawable.ic_dialog_email))
                 .setContentIntent(mainPendingIntent)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 // Set primary color (important for Wear 2.0 Notifications).

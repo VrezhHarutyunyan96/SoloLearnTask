@@ -5,9 +5,12 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Comparator;
+
 @Entity(tableName = "saved_data")
-public class SavedDataModel {
+public class SavedDataModel implements Comparator<SavedDataModel> {
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
     private long id;
     @ColumnInfo(name = "sectionName")
     private String sectionName;
@@ -56,5 +59,10 @@ public class SavedDataModel {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    @Override
+    public int compare(SavedDataModel savedDataModel, SavedDataModel t1) {
+        return savedDataModel.getSectionName().compareTo(t1.getSectionName());
     }
 }

@@ -20,7 +20,11 @@ import com.sololearn.android.home.database.entity.SavedDataModel;
 import com.sololearn.android.home.view.adapter.SavedRecyclerViewAdapter;
 import com.sololearn.android.home.viewmodel.SavedDataViewModel;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,9 +71,11 @@ public class SavedFragment extends Fragment {
     }
 
     private void initSavedAdapter(List<SavedDataModel> savedDataModels) {
+        Set<SavedDataModel> set = new LinkedHashSet<>(savedDataModels);
+        List<SavedDataModel> notDuplicateData = new ArrayList<>(set);
         gridLayoutManager = new GridLayoutManager(context, 2);
         recyclerView.setLayoutManager(gridLayoutManager);
-        savedRecyclerViewAdapter = new SavedRecyclerViewAdapter(context, savedDataModels);
+        savedRecyclerViewAdapter = new SavedRecyclerViewAdapter(context, notDuplicateData);
         recyclerView.setAdapter(savedRecyclerViewAdapter);
     }
 

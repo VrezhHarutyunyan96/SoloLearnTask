@@ -47,13 +47,13 @@ public final class MockDatabase {
         private BigPictureStyleSocialAppData() {
             // Standard Notification values:
             // Title/Content for API <16 (4.0 and below) devices.
-            mContentTitle = "Bob's Post";
+            mContentTitle = "You have new item";
             mContentText = "[Picture] Like my shot of Earth?";
             mPriority = NotificationCompat.PRIORITY_HIGH;
 
             // Style notification values:
             mBigImage = R.drawable.earth;
-            mBigContentTitle = "Bob's Post";
+            mBigContentTitle = "You have new item";
             mSummaryText = "Like my shot of Earth?";
 
             // This would be possible responses based on the contents of the post.
