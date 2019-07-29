@@ -1,7 +1,7 @@
 package com.sololearn.android.home.view.adapter;
 
 import android.content.Context;
-import android.os.Bundle;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +22,7 @@ import com.bumptech.glide.Glide;
 import com.sololearn.android.R;
 import com.sololearn.android.constants.AppConstants;
 import com.sololearn.android.home.model.HomeDataResponseModel;
-import com.sololearn.android.home.view.fragment.DetailItemFragment;
+import com.sololearn.android.home.view.activity.DetailItemActivity;
 import com.sololearn.android.home.viewmodel.SavedDataViewModel;
 
 public class HomeRecyclerPagingAdapter extends PagedListAdapter<HomeDataResponseModel, RecyclerView.ViewHolder> {
@@ -79,7 +79,6 @@ public class HomeRecyclerPagingAdapter extends PagedListAdapter<HomeDataResponse
     }
 
 
-
     private void pin(String sectionName, String title, String imageUrl) {
         savedDataViewModel.save(sectionName, title, imageUrl);
     }
@@ -89,7 +88,6 @@ public class HomeRecyclerPagingAdapter extends PagedListAdapter<HomeDataResponse
         activity
                 .getSupportFragmentManager()
                 .beginTransaction()
-                .addToBackStack("")
                 .replace(resId, fragment)
                 .commit();
     }
@@ -176,12 +174,9 @@ public class HomeRecyclerPagingAdapter extends PagedListAdapter<HomeDataResponse
                     if (data != null) {
                         HomeDataResponseModel.Response response = data.getResponse();
                         String imageUrl = response.getResults().get(position).getFields().getThumbnail();
-                        Fragment detailItemFragment = new DetailItemFragment();
-                        Bundle bundle = new Bundle();
-                        bundle.putString(AppConstants.DETAIL_IMAGE, imageUrl);
-                        detailItemFragment.setArguments(bundle);
-                        // show detail fragment
-                        createFragment(R.id.fragmentContainer, detailItemFragment, v);
+                        Intent intent = new Intent(context, DetailItemActivity.class);
+                        intent.putExtra(AppConstants.DETAIL_IMAGE, imageUrl);
+                        context.startActivity(intent);
                     }
                 });
 

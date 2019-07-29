@@ -45,42 +45,9 @@ public class MainActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.viewpager);
     }
 
-    public void createFragment(int resId, Fragment fragment) {
-        if (getSupportFragmentManager() != null) {
-            // get fragment from container
-            Fragment createdFragment = getSupportFragmentManager()
-                    .findFragmentByTag(fragment.getClass().getName());
-            if (createdFragment == null) {
-                fragmentTransaction(resId, fragment);
-            } else {
-                fragmentTransaction(resId, fragment);
-            }
-        }
-    }
-
-    private void fragmentTransaction(int resId, Fragment fragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(resId, fragment, fragment.getClass().getName())
-                .addToBackStack(null)
-                .commit();
-    }
-
     @Override
     public void onBackPressed() {
-        handleBackPressed(getSupportFragmentManager(), R.id.fragmentContainer);
-        super.onBackPressed();
-    }
-
-    private void handleBackPressed(FragmentManager supportFragmentManager, int resId) {
-        if (supportFragmentManager != null) {
-            Fragment fragment = supportFragmentManager.findFragmentById(resId);
-            if (fragment != null) {
-                if (fragment instanceof HomeFragment) {
-                    finish();
-                }
-            }
-        }
+        finish();
     }
 
     @Override
