@@ -5,10 +5,10 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.util.Comparator;
+import java.util.Objects;
 
 @Entity(tableName = "saved_data")
-public class SavedDataModel implements Comparator<SavedDataModel> {
+public class SavedDataModel {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private long id;
@@ -62,7 +62,15 @@ public class SavedDataModel implements Comparator<SavedDataModel> {
     }
 
     @Override
-    public int compare(SavedDataModel savedDataModel, SavedDataModel t1) {
-        return savedDataModel.getSectionName().compareTo(t1.getSectionName());
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SavedDataModel that = (SavedDataModel) o;
+        return sectionName.equals(that.sectionName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sectionName);
     }
 }

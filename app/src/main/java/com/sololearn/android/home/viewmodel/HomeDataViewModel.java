@@ -39,7 +39,7 @@ public class HomeDataViewModel extends ViewModel {
      */
     @SuppressWarnings("unchecked")
     private void init() {
-        executor = Executors.newFixedThreadPool(10);
+        executor = Executors.newFixedThreadPool(5);
 
         HomeDataFactory homeDataFactory = new HomeDataFactory();
         networkState = Transformations.switchMap(homeDataFactory.getMutableLiveData(),
@@ -48,7 +48,7 @@ public class HomeDataViewModel extends ViewModel {
         PagedList.Config pagedListConfig =
                 (new PagedList.Config.Builder())
                         .setEnablePlaceholders(false)
-                        .setInitialLoadSizeHint(50)
+                        .setInitialLoadSizeHint(10)
                         .setPageSize(50).build();
 
         articleLiveData = (new LivePagedListBuilder(homeDataFactory, pagedListConfig))

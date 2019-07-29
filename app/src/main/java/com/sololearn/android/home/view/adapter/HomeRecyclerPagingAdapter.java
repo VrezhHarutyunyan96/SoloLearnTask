@@ -78,34 +78,7 @@ public class HomeRecyclerPagingAdapter extends PagedListAdapter<HomeDataResponse
         savedDataViewModel = ViewModelProviders.of((FragmentActivity) context).get(SavedDataViewModel.class);
     }
 
-    private void onItemClick(HomeViewHolder holder, int position) {
-        if (holder != null) {
-            holder.rootLayout.setOnClickListener(v -> {
-                data = getItem(position);
-                if (data != null) {
-                    HomeDataResponseModel.Response response = data.getResponse();
-                    String imageUrl = response.getResults().get(position).getFields().getThumbnail();
-                    Fragment detailItemFragment = new DetailItemFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putString(AppConstants.DETAIL_IMAGE, imageUrl);
-                    detailItemFragment.setArguments(bundle);
-                    // show detail fragment
-                    createFragment(R.id.fragmentContainer, detailItemFragment, v);
-                }
-            });
 
-            holder.pin.setOnClickListener(v -> {
-                data = getItem(position);
-                if (data != null) {
-                    HomeDataResponseModel.Result result = data.getResponse().getResults().get(position);
-                    String sectionName = result.getSectionName();
-                    String title = result.getWebTitle();
-                    String imageUrl = result.getFields().getThumbnail();
-                    pin(sectionName, title, imageUrl);
-                }
-            });
-        }
-    }
 
     private void pin(String sectionName, String title, String imageUrl) {
         savedDataViewModel.save(sectionName, title, imageUrl);
@@ -175,6 +148,8 @@ public class HomeRecyclerPagingAdapter extends PagedListAdapter<HomeDataResponse
                 addText(result.getWebTitle(), title);
                 addText(result.getSectionName(), section);
             }
+
+            onItemClick(this, position);
         }
 
         private void addText(String text, TextView textView) {
@@ -191,6 +166,35 @@ public class HomeRecyclerPagingAdapter extends PagedListAdapter<HomeDataResponse
                             .load(result.getFields().getThumbnail())
                             .into(imageView);
                 }
+            }
+        }
+
+        private void onItemClick(HomeViewHolder holder, int position) {
+            if (holder != null) {
+                holder.rootLayout.setOnClickListener(v -> {
+                    data = getItem(position);
+                    if (data != null) {
+                        HomeDataResponseModel.Response response = data.getResponse();
+                        String imageUrl = response.getResults().get(position).getFields().getThumbnail();
+                        Fragment detailItemFragment = new DetailItemFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putString(AppConstants.DETAIL_IMAGE, imageUrl);
+                        detailItemFragment.setArguments(bundle);
+                        // show detail fragment
+                        createFragment(R.id.fragmentContainer, detailItemFragment, v);
+                    }
+                });
+
+                holder.pin.setOnClickListener(v -> {
+                    data = getItem(position);
+                    if (data != null) {
+                        HomeDataResponseModel.Result result = data.getResponse().getResults().get(position);
+                        String sectionName = result.getSectionName();
+                        String title = result.getWebTitle();
+                        String imageUrl = result.getFields().getThumbnail();
+                        pin(sectionName, title, imageUrl);
+                    }
+                });
             }
         }
     }
